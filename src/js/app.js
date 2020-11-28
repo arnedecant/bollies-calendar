@@ -1,9 +1,6 @@
-const CLIENT_ID = '106691038549-ko29mp6qulumr4cpfi36ik5v6m4i1gcv.apps.googleusercontent.com'
-const API_KEY = 'AIzaSyB85HGh550U2vflSGW9Q72vXAz-n86Oubo'
-const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"]
-const SCOPES = "https://www.googleapis.com/auth/calendar.readonly"
-
-// import GoogleCalendar from './controllers/google/calendar'
+import { Calendar } from '@fullcalendar/core'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import GoogleCalendar from './controllers/google/calendar'
 
 class App {
 
@@ -12,49 +9,42 @@ class App {
 		this.$dom = {}
 		this.$dom.btnSignin = document.querySelector('[data-button="signin"]')
 		this.$dom.btnSignout = document.querySelector('[data-button="signout"]')
+		this.$dom.calendar = document.querySelector('[data-calendar]')
+
+		this.GoogleCalendar = new GoogleCalendar({
+			onStatusUpdate: this.onStatusUpdate.bind(this)
+		})
+
+		document.querySelector('body').addEventListener('click', this.click.bind(this))
 
 		this.init()
 
 	}
 
 	init () {
-
-		let timeout = 0
-
-		const interval = window.setInterval(() => {
-
-			timeout++
-			window.GAPI = gapi
-			if (!window.GAPI && timeout <= 600) return
-
-			window.clearInterval(interval)
-			GAPI.load('client:auth2', this.initClient.bind(this))
-
-		}, 100)
+		
+		this.calendar = new Calendar(this.$dom.calendar, { plugins: [dayGridPlugin] })
+		this.calendar.render()
 
 	}
 
-	initClient () {
+	click (e) {
 
-		GAPI.client.init({
-			apiKey: API_KEY,
-			clientId: CLIENT_ID,
-			discoveryDocs: DISCOVERY_DOCS,
-			scope: SCOPES
-		}).then(() => {
-			// Listen for sign-in state changes.
-			GAPI.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus.bind(this))
-			// Handle the initial sign-in state.
-			this.updateSigninStatus(GAPI.auth2.getAuthInstance().isSignedIn.get())
-			this.$dom.btnSignin.onclick = this.handleSigninClick.bind(this)
-			this.$dom.btnSignout.onclick = this.handleSignoutClick.bind(this)
-		}, (error) => {
-			this.appendPre(JSON.stringify(error, null, 2))
-		})
+		switch (e.target.dataset.button) {
+			case 'signin': 
+				this.GoogleCalendar.signIn()
+				break
+			case 'signout':
+				this.GoogleCalendar.signOut()
+				break
+			case 'addTestEvent':
+				this.addTestEvent()
+				break
+		}
 
 	}
 
-	updateSigninStatus (isSignedIn) {
+	onStatusUpdate (isSignedIn) {
 		if (isSignedIn) {
 			this.$dom.btnSignin.style.display = 'none'
 			this.$dom.btnSignout.style.display = 'block'
@@ -65,49 +55,51 @@ class App {
 		}
 	}
 
-	handleSigninClick () {
-
-		GAPI.auth2.getAuthInstance().signIn()
-
-	}
-
-	handleSignoutClick () {
-
-		GAPI.auth2.getAuthInstance().signOut()
-
-	}
-
 	appendPre (message) {
 
-		var pre = document.getElementById('content')
-		var textContent = document.createTextNode(message + '\n')
+		const pre = document.getElementById('content')
+		const textContent = document.createTextNode(message + '\n')
 		pre.appendChild(textContent)
 
 	}
 
-	listUpcomingEvents () {
-		GAPI.client.calendar.events.list({
-			'calendarId': 'primary',
-			'timeMin': (new Date()).toISOString(),
-			'showDeleted': false,
-			'singleEvents': true,
-			'maxResults': 10,
-			'orderBy': 'startTime'
-		}).then((response) => {
-			var events = response.result.items
-			this.appendPre('Upcoming events:')
+	async listUpcomingEvents () {
 
-			if (events.length > 0) {
-				for (let i = 0; i < events.length; i++) {
-					var event = events[i]
-					var when = event.start.dateTime
-					if (!when) when = event.start.date
-					this.appendPre(event.summary + ' (' + when + ')')
-				}
-			} else {
-				this.appendPre('No upcoming events found.')
+		const events = await this.GoogleCalendar.getUpcomingEvents()
+		this.appendPre('Upcoming events:')
+
+		if (events.length > 0) {
+			for (const event of events) {
+				let when = event.start.dateTime
+				if (!when) when = event.start.date
+				this.appendPre(event.summary + ' (' + when + ')')
 			}
-		})
+		} else {
+			this.appendPre('No upcoming events found.')
+		}
+	}
+
+	async addTestEvent () {
+
+		const data = {
+			'summary': 'Test event',
+			'start': {
+				'dateTime': '2020-12-02T09:00:00-07:00',
+				'timeZone': 'Europe/Brussels'
+			},
+			'end': {
+				'dateTime': '2020-12-02T17:00:00-07:00',
+				'timeZone': 'Europe/Brussels'
+			},
+			'reminders': {
+				'useDefault': false,
+				'overrides': []
+			}
+		}
+
+		const event = await this.GoogleCalendar.addEvent(data)
+		console.log(event)
+
 	}
 
 }
