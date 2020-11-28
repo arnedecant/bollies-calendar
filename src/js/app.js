@@ -10,7 +10,7 @@ class App {
 	constructor () {
 
 		this.$dom = {}
-		this.$dom.btnAuth = document.querySelector('[data-button="auth"]')
+		this.$dom.btnSignin = document.querySelector('[data-button="signin"]')
 		this.$dom.btnSignout = document.querySelector('[data-button="signout"]')
 
 		this.init()
@@ -23,13 +23,9 @@ class App {
 
 		const interval = window.setInterval(() => {
 
-			console.log('001')
-
 			timeout++
 			window.GAPI = gapi
 			if (!window.GAPI && timeout <= 600) return
-
-			console.log('002')
 
 			window.clearInterval(interval)
 			GAPI.load('client:auth2', this.initClient.bind(this))
@@ -39,8 +35,6 @@ class App {
 	}
 
 	initClient () {
-
-		console.log('initClient')
 
 		GAPI.client.init({
 			apiKey: API_KEY,
@@ -52,8 +46,8 @@ class App {
 			GAPI.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus.bind(this))
 			// Handle the initial sign-in state.
 			this.updateSigninStatus(GAPI.auth2.getAuthInstance().isSignedIn.get())
-			this.$dom.btnAuth.onclick = this.handleAuthClick
-			this.$dom.btnAuth.onclick = this.handleSignoutClick
+			this.$dom.btnSignin.onclick = this.handleSigninClick.bind(this)
+			this.$dom.btnSignout.onclick = this.handleSignoutClick.bind(this)
 		}, (error) => {
 			this.appendPre(JSON.stringify(error, null, 2))
 		})
@@ -62,16 +56,16 @@ class App {
 
 	updateSigninStatus (isSignedIn) {
 		if (isSignedIn) {
-			this.$dom.btnAuth.style.display = 'none'
+			this.$dom.btnSignin.style.display = 'none'
 			this.$dom.btnSignout.style.display = 'block'
 			this.listUpcomingEvents()
 		} else {
-			this.$dom.btnAuth.style.display = 'block'
+			this.$dom.btnSignin.style.display = 'block'
 			this.$dom.btnSignout.style.display = 'none'
 		}
 	}
 
-	handleAuthClick () {
+	handleSigninClick () {
 
 		GAPI.auth2.getAuthInstance().signIn()
 
