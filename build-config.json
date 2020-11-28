@@ -8,8 +8,8 @@
 	"targets": [
 		{
 			"id": "index",
-			"seo-title": "Arne Decant",
-			"seo-description": "Hi, my name is Arne and I'm a front-end web developer from Belgium.",
+			"seo-title": "Audio visualizer",
+			"seo-description": "",
 			"src-html": "index.html",
 			"src-sass": "main.scss",
 			"src-js": "app.js"
