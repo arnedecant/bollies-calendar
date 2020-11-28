@@ -1,0 +1,48 @@
+body {
+    line-height: 1.5;
+	font-size: 1.2rem;
+	font-weight: 100;
+}
+
+h1, h2 {
+    margin: 0;
+	color: var(--color-primary);
+	font-weight: 100;
+	text-transform: uppercase;
+    letter-spacing: 0.15rem;
+    font-size: 2rem;
+}
+
+.hero__title {
+	background: linear-gradient(45deg, var(--color-primary) 0%, #ddd 50%, var(--color-primary) 100%);
+	background-size: cover;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	text-fill-color: transparent;
+}
+
+.hero__text {
+	font-size: 1.25rem;
+	color: #666;
+}
+
+p[data-background="multiline"] > span {
+	background-color: var(--color-bg);
+	box-shadow: 0.50em 0 0 var(--color-bg), -0.50em 0 0 var(--color-bg);
+	box-decoration-break: clone;
+}
+
+
+@media screen and (min-width: 53em) {
+
+	h1, h2 {
+		font-size: 4vw;
+	}
+
+	.hero__title {
+		font-size: 7vw;
+		letter-spacing: 0.5vw;
+	}
+
+}

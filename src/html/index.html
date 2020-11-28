@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+    <!-- PAGE-LOAD ///////////////////////////////////////////////////
+    Resolve and caching DNS lookups initiates downloads faster
+    Browsers do this by default for assets present in the markup
+    Enable 'dns-prefetch' when dealing with cross-domain assets
+    (eg. API-calls, injected urls, 3rd party libs, ...)
+  
+    <link rel="dns-prefetch" href="//google-analytics.com" />
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
+    -->
+  
+    <!--
+    Use 'preconnect' to keep DNS lookups and handshakes open
+    NOTE: limited support, to be used in combination with 'dns-prefetch'
+  
+    <link rel="preconnect" href="//cdnjs.cloudflare.com" crossorigin />
+    -->
+  
+    <!--
+    Use 'prefetch' to preload assets once this page has finished
+    loading or 'prerender' to preload entire pages (with assets)
+    This results in faster downloads of assets and pages when
+    needed (eg. load ondemand, navigating to another page, ...)
+  
+    <link rel="prefetch" href="{{ SOME-ASSET-OR-ANOTHER-PAGE }}" />
+    <link rel="prerender" href="{{ ANOTHER-PAGE }}" />
+    -->
+  
+  
+    <!-- CSS ///////////////////////////////////////////////////////// -->
+  
+    <link rel="stylesheet" href="css/@@buildTarget.css" />
+  
+  
+    <!-- SEO /////////////////////////////////////////////////////////
+    Set meta-data and force search engines to display this information
+    in search results (this prevents caching of meta-data)
+    -->
+  
+    <title>@@seoTitle</title>
+  
+    <meta name="description" content="@@seoDescription" />
+    <meta name="robots" content="noodp, noydir" />
+  
+    <!--
+    Signal search engines to 'use-this-URL-for-this-page', use this
+    when parameters (# or ?) are used to control the display state
+    <link rel="canonical" href="http://www.{{ URL }}" />
+    -->
+  
+  
+    <!-- META-TAGS FOR MOBILE ////////////////////////////////////////
+    Set the viewport for IOS to enable media queries and prevent phone
+    numbers from being displayed as hyperlinks (IOS default behavior)
+    NOTE: don't disable the ability to zoom, it's bad UX
+    NOTE: since IOS 11.3 scaling properties are ignored (needs R&D)
+  
+    - iOS full screen with viewport-fit=cover
+    - https://stackoverflow.com/questions/46476265/ios-full-screen-web-app-color-status-bar
+  
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="format-detection" content="telephone=no,date=no,address=no,email=no,url=no"/>
+    -->
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  
+    <!-- MOBILE STANDALONE MODE //////////////////////////////////////
+    Enable the page to run in standalone (chromeless) mode from
+    the homescreen on Android and IOS
+  
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="@@seo-title" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  
+    <meta name="application-name" content="@@seo-title">
+    <meta name="theme-color" content="#000000">
+    <meta name="msapplication-navbutton-color" content="#000000">
+    -->
+  
+  
+    <!-- G+ AND FACEBOOK /////////////////////////////////////////////
+  
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="@@seo-title" />
+    <meta property="og:description" content="@@seo-description" />
+    <meta property="og:image" content="http://www.{{ URL }}/social.jpg" />
+    <meta property="og:url" content="http://www.{{ URL }}" />
+    -->
+  
+  
+    <!-- TWITTER CARDS ///////////////////////////////////////////////
+    NOTE: Twitter cards need to be validated and approved after launch
+    ====> https://dev.twitter.com/docs/cards/validation/validator
+  
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@{{ TWITTER-ACCOUNT }}" />
+    <meta name="twitter:title" content="@@seo-title" />
+    <meta name="twitter:description" content="@@seo-description" />
+    <meta name="twitter:image:src" content="http://www.{{ URL }}/social.jpg" />
+    -->
+  
+  
+    <!-- FAVICONS ////////////////////////////////////////////////////
+    - http://favicon.htmlkit.com/favicon
+    - http://www.favicomatic.com
+    -->
+  
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" href="favicon.ico" />
+  
+  </head>
+  <body>
+    <p>Google Calendar API Quickstart</p>
+
+    <!--Add buttons to initiate auth sequence and sign out-->
+    <button data-button="auth" style="display: none;">Authorize</button>
+    <button data-button="signout" style="display: none;">Sign Out</button>
+
+    <pre id="content" style="white-space: pre-wrap;"></pre>
+    
+    <script src="js/@@buildTarget.bundle.js" async defer></script>
+  </body>
+</html>

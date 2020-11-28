@@ -1,0 +1,203 @@
+html {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	height: 100%;
+	color: var(--color-text);
+	background-color: var(--color-bg);
+	font-family: var(--font-default);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+	min-height: 1200vh;
+}
+
+body > canvas {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 99;
+	pointer-events: none;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	width: 100vw;
+	height: 100vh;
+
+	position: relative;
+}
+
+section {
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+
+	opacity: 0;
+	color: white;
+	height: 100vh;
+	width: 100%;
+	overflow-y: auto;
+	overflow-x: hidden; // mostly for the canvasses
+	padding: 0 5vw;
+
+	// will-change: opacity;
+}
+
+section > .cell {
+	padding: 5vh 0;
+	height: 100%;
+	position: relative;
+	z-index: 1;
+	display: none;
+}
+
+section:not(.align-right) > .cell:first-child,
+section.align-right > .cell:last-child {
+	display: block;
+}
+
+section > .cell.img-group,
+section > .cell[data-component="image"] {
+	padding: 0;
+}
+
+section.align-right {
+	align-items: flex-end;
+	text-align: right;
+}
+
+section.align-center,
+section.no-cells {
+	flex-direction: column;
+}
+
+section.align-center {
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+section.active, section.hero.active {
+	z-index: 99;
+	pointer-events: all;
+}
+
+section.hero {
+	position: relative;
+	z-index: 1;
+	opacity: 0;
+}
+
+section > p {
+	max-width: 80%;
+}
+
+p {
+	margin: 1.5rem 0;
+}
+
+p + p {
+	margin-top: 0;
+}
+
+p + .btn {
+	margin-top: 0.5rem;
+}
+
+.cell:first-child > p {
+	margin-right: 5vw;
+}
+
+.cell:last-child > p {
+	margin-left: 5vw;
+}
+
+.img-group {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: flex-end;
+	font-size: 0;
+}
+
+.img-group.cell {
+	padding: 0;
+}
+
+.img-group.cell:first-child {
+	align-items: flex-end;
+}
+
+ul.flex {
+	display: flex;
+	margin: 0;
+	padding: 0;
+}
+
+ul.flex li {
+	list-style-type: none;
+}
+
+li a {
+	display: inline-block;
+}
+
+.social {
+	position: absolute;
+	bottom: 1rem;
+	right: 1rem;
+}
+
+@media screen and (min-width: 53em) {
+
+	section > p {
+		max-width: 60%;
+	}
+
+	section > .cell {
+		display: block;
+	}
+
+	section > .cell.img-group {
+		display: flex;
+	}
+
+	section > .cell:first-child {
+		align-self: flex-start;
+		flex: 0 0 60%;
+		width: 60%;
+		z-index: 2;
+	}
+	
+	section > .cell:last-child {
+		align-self: flex-end;
+		flex: 0 0 40%;
+		width: 40%;
+	}
+
+	section.align-right > .cell:first-child {
+		flex: 0 0 40%;
+		width: 40%;
+		z-index: 1;
+	}
+	
+	section.align-right > .cell:last-child {
+		flex: 0 0 60%;
+		width: 60%;
+		z-index: 2;
+	}
+
+}

@@ -1,0 +1,18 @@
+{
+	"production": false,
+	"breakpoints": {
+		"small": "40em",
+		"medium": "60em",
+		"large": "80em"
+	},
+	"targets": [
+		{
+			"id": "index",
+			"seo-title": "Arne Decant",
+			"seo-description": "Hi, my name is Arne and I'm a front-end web developer from Belgium.",
+			"src-html": "index.html",
+			"src-sass": "main.scss",
+			"src-js": "app.js"
+		}
+	]
+}
