@@ -59,7 +59,7 @@ gulp.task('scripts', () => {
 
 	return gulp.src('src/js/*.js')
 		.pipe(plugins.plumber())
-		.pipe(webpack(require('./webpack.js')))
+		.pipe(webpack(require('./webpack.config.js')))
 		.pipe(gulp.dest('public/js'))
 
 })
